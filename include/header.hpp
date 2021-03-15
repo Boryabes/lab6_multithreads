@@ -49,7 +49,7 @@ using namespace logging::trivial;
 namespace attrs = boost::log::attributes;
 namespace expr = boost::log::expressions;
 
-static const string Hex_End = "0000";
+static const char Hex_End[] = "0000";
 
 class Hasher {
  public:
@@ -57,7 +57,7 @@ class Hasher {
 
   ~Hasher();
 
-  void static signal_catch(int signum){
+  static void signal_catch(int signum){
     write_to_json_file("hash_hex_log.json");
     sleep(1);
     std::cout << "\nProgram aborted with code " << --signum << "\n";
@@ -70,9 +70,9 @@ class Hasher {
     output_file.open(file_name);
     input_file.open(file_name);
     json out_json;
-    if(input_file.peek() != EOF)
+    if (input_file.peek() != EOF)
       input_file >> out_json;
-    for(auto & right_hash : right_hashs) {
+    for (auto & right_hash : right_hashs) {
       out_json["values"].push_back(right_hash);
     }
     output_file << out_json.dump(4);
