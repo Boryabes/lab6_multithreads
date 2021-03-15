@@ -3,7 +3,7 @@
 #ifndef INCLUDE_HEADER_HPP_
 #define INCLUDE_HEADER_HPP_
 #include <iostream>
-#include "../third-party/PicoSHA2/picosha2.h"
+#include "../third-party/PicoSHA2/picosha2"
 #include <string>
 #include <chrono>
 #include <thread>
