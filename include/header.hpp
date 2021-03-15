@@ -88,7 +88,7 @@ class Hasher {
  private:
   std::mutex mutex;
   int number_threads;
-  long duration;
+  int duration;
   string src_str;
   string hash_hex_str;
   std::vector<std::thread> threads;
