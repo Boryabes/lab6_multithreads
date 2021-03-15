@@ -21,7 +21,7 @@ void Hasher::start(const bool& key) {
       keywords::time_based_rotation =
           sinks::file::rotation_at_time_point(0, 0, 0),
       keywords::format = "[%Severity%][%TimeStamp%]: %Message%");
-  for (unsigned int i = 0; i < number_threads; ++i) {
+  for (int i = 0; i < number_threads; ++i) {
     threads.emplace_back(std::thread([&]() { do_hashing(key); }));
   }
 }
@@ -62,7 +62,7 @@ void Hasher::sort_hash(string& hash) {
 }
 
 Hasher::~Hasher() {
-  for (unsigned int i = 0; i < number_threads; ++i) {
+  for (int i = 0; i < number_threads; ++i) {
     threads[i].join();
   }
 }

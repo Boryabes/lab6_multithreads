@@ -45,9 +45,9 @@ namespace logging = boost::log;
 namespace src = boost::log::sources;
 namespace sinks = boost::log::sinks;
 namespace keywords = boost::log::keywords;
-using namespace logging::trivial;
 namespace attrs = boost::log::attributes;
 namespace expr = boost::log::expressions;
+using namespace logging::trivial;
 
 static const char Hex_End[] = "0000";
 
@@ -64,7 +64,7 @@ class Hasher {
     exit(signum);
   }
 
-  void static write_to_json_file(const string& file_name){
+  static void write_to_json_file(const string& file_name){
     std::ofstream output_file;
     std::ifstream input_file;
     output_file.open(file_name);
@@ -77,16 +77,17 @@ class Hasher {
     }
     output_file << out_json.dump(4);
     output_file.close();
-  };
+  }
 
   void start(const bool& key);
 
   void sort_hash(string& hash);
 
   void do_hashing(const bool& key);
+
  private:
   std::mutex mutex;
-  unsigned int number_threads;
+  int number_threads;
   long duration;
   string src_str;
   string hash_hex_str;
@@ -94,5 +95,4 @@ class Hasher {
   static std::vector<json> right_hashs;
   src::severity_logger< severity_level > slg;
 };
-
 #endif // INCLUDE_HEADER_HPP_
