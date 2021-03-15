@@ -15,12 +15,23 @@
 #include <fstream>
 #include <sstream>
 
+#include <boost/log/core.hpp>
+#include <boost/log/expressions.hpp>
 #include <boost/log/trivial.hpp>
+#include <boost/log/sinks/text_file_backend.hpp>
+#include <boost/log/sinks/sync_frontend.hpp>
+#include <boost/log/sinks/text_ostream_backend.hpp>
 #include <boost/log/sources/logger.hpp>
 #include <boost/log/utility/setup/file.hpp>
 #include <boost/log/utility/setup/console.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <boost/log/sources/severity_logger.hpp>
+#include <boost/log/sources/record_ostream.hpp>
+#include <boost/smart_ptr/shared_ptr.hpp>
+#include <boost/smart_ptr/make_shared_object.hpp>
+#include <boost/log/support/date_time.hpp>
+#include <boost/log/attributes/timer.hpp>
+#include <boost/log/attributes/named_scope.hpp>
 
 using time_point = std::chrono::system_clock::time_point;
 using high_clock = std::chrono::high_resolution_clock;
@@ -29,15 +40,16 @@ using std::endl;
 using string = std::string;
 using json = nlohmann::json;
 using boost::shared_ptr;
+
 namespace logging = boost::log;
 namespace src = boost::log::sources;
 namespace sinks = boost::log::sinks;
 namespace keywords = boost::log::keywords;
-namespace logging::trivial;
+using namespace logging::trivial;
 namespace attrs = boost::log::attributes;
 namespace expr = boost::log::expressions;
 
-static const string Hex_End [] = "0000";
+static const string Hex_End = "0000";
 
 class Hasher {
  public:
@@ -45,11 +57,11 @@ class Hasher {
 
   ~Hasher();
 
-  static void signal_catch(int signum){
+  void static signal_catch(int signum){
     write_to_json_file("hash_hex_log.json");
     sleep(1);
     std::cout << "\nProgram aborted with code " << --signum << "\n";
-    exit(signum); //завершение программы
+    exit(signum);
   }
 
   void static write_to_json_file(const string& file_name){
@@ -58,14 +70,14 @@ class Hasher {
     output_file.open(file_name);
     input_file.open(file_name);
     json out_json;
-    if (input_file.peek() != EOF)
+    if(input_file.peek() != EOF)
       input_file >> out_json;
-    for (auto & right_hash : right_hashs) {
+    for(auto & right_hash : right_hashs) {
       out_json["values"].push_back(right_hash);
     }
     output_file << out_json.dump(4);
     output_file.close();
-  }
+  };
 
   void start(const bool& key);
 
