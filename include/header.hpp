@@ -29,7 +29,6 @@ using std::endl;
 using string = std::string;
 using json = nlohmann::json;
 using boost::shared_ptr;
-
 namespace logging = boost::log;
 namespace src = boost::log::sources;
 namespace sinks = boost::log::sinks;
@@ -59,14 +58,14 @@ class Hasher {
     output_file.open(file_name);
     input_file.open(file_name);
     json out_json;
-    if(input_file.peek() != EOF)
+    if (input_file.peek() != EOF)
       input_file >> out_json;
     for(auto & right_hash : right_hashs) {
       out_json["values"].push_back(right_hash);
     }
     output_file << out_json.dump(4);
     output_file.close();
-  };
+  }
 
   void start(const bool& key);
 
