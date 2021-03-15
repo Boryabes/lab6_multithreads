@@ -46,25 +46,25 @@ class Hasher {
 
   ~Hasher();
 
-  void static signal_catch(int signum){ //ловим сигнал
-    write_to_json_file("hash_hex_log.json"); //записываем в джейсон
-    sleep(1); //ждем 1 секунду чтобы подождать потоки и вывод был корректным (костыль)
-    std::cout << "\nProgram aborted with code " << --signum << "\n"; //кнтрЦ означает двйоку, поэтому отнимаем от сигнум 1
+  void static signal_catch(int signum){
+    write_to_json_file("hash_hex_log.json");
+    sleep(1);
+    std::cout << "\nProgram aborted with code " << --signum << "\n";
     exit(signum); //завершение программы
   }
 
   void static write_to_json_file(const string& file_name){
-    std::ofstream output_file; //объекст из которого берем
-    std::ifstream input_file; //объекст в который пихаем
+    std::ofstream output_file;
+    std::ifstream input_file;
     output_file.open(file_name);
     input_file.open(file_name);
-    json out_json; //объекст класса джейсон
-    if(input_file.peek() != EOF) //берем последний символ из файла (еоф символ окончания файла), проверяем не пустой ли файл
-      input_file >> out_json; // все что было в файле старом записываем в джейсон
-    for(auto & right_hash : right_hashs) { // перебор коллекции
-      out_json["values"].push_back(right_hash); //добавляем в джейсон новые значения при помощи ф-ии пушбэк
+    json out_json;
+    if(input_file.peek() != EOF)
+      input_file >> out_json;
+    for(auto & right_hash : right_hashs) {
+      out_json["values"].push_back(right_hash);
     }
-    output_file << out_json.dump(4); // записываем старое+полученное в файл
+    output_file << out_json.dump(4);
     output_file.close();
   };
 
