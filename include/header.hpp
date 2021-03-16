@@ -41,13 +41,14 @@ using string = std::string;
 using json = nlohmann::json;
 using boost::shared_ptr;
 
+
 namespace logging = boost::log;
 namespace src = boost::log::sources;
 namespace sinks = boost::log::sinks;
 namespace keywords = boost::log::keywords;
 namespace attrs = boost::log::attributes;
 namespace expr = boost::log::expressions;
-using namespace logging::trivial;
+
 
 static const char Hex_End[] = "0000";
 
@@ -93,6 +94,6 @@ class Hasher {
   string hash_hex_str;
   std::vector<std::thread> threads;
   static std::vector<json> right_hashs;
-  src::severity_logger< severity_level > slg;
+  src::severity_logger< boost::log::trivial::severity_level > slg;
 };
 #endif // INCLUDE_HEADER_HPP_

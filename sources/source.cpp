@@ -43,7 +43,7 @@ void Hasher::do_hashing(const bool& key) {
 
 void Hasher::sort_hash(string& hash) {
   if (hash_hex_str.substr(60, 4) == Hex_End) {
-    BOOST_LOG_SEV(slg, info)
+    BOOST_LOG_SEV(slg, boost::log::trivial::severity_level::info)
         << endl
         << "sourse: " << std::hex << std::stol(src_str) << std::dec
         << " hash: " << hash << " duration: " << duration
@@ -53,7 +53,7 @@ void Hasher::sort_hash(string& hash) {
               {"duration", duration}};
     right_hashs.push_back(j);
   } else {
-    BOOST_LOG_SEV(slg, trace)
+    BOOST_LOG_SEV(slg, boost::log::trivial::severity_level::trace)
         << endl
         << "sourse: " << std::hex << std::stol(src_str) << std::dec
         << " hash: " << hash_hex_str
